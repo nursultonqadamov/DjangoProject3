@@ -1,0 +1,10 @@
+{% extends 'fronted/base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+
+<div hx-get="{% url 'frontend:dashboard_stats' %}" hx-trigger="load" hx-swap="innerHTML">
+    <!-- AJAX orqali yuklanadi -->
+</div>
+{% endblock %}

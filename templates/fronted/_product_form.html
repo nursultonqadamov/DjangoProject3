@@ -1,0 +1,60 @@
+<form
+    hx-post="{% if product %}{% url 'frontend:product_edit' product.id %}{% else %}{% url 'frontend:product_create' %}{% endif %}"
+    hx-target="#product-list-container"
+    hx-swap="innerHTML"
+    hx-include="[name=csrfmiddlewaretoken]"
+    class="bg-white p-4 rounded shadow mb-6"
+    enctype="multipart/form-data"
+    method="post">
+    {% csrf_token %}
+    <div class="grid grid-cols-2 gap-4">
+        <!-- Mahsulot nomi -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Nomi</label>
+            <input type="text" name="name" value="{{ product.name|default:'' }}" required class="mt-1 block w-full border-gray-300 rounded" />
+        </div>
+        <!-- Narx -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Narx (so‘m)</label>
+            <input type="number" step="0.01" name="price" value="{{ product.price|default:'' }}" required class="mt-1 block w-full border-gray-300 rounded" />
+        </div>
+        <!-- Kategoriya -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Kategoriya</label>
+            <select name="category" required class="mt-1 block w-full border-gray-300 rounded">
+                {% for code, label in product.CATEGORY_CHOICES %}
+                    <option value="{{ code }}" {% if product and product.category == code %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- Zaxira -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Zaxira miqdori</label>
+            <input type="number" name="stock" value="{{ product.stock|default:'0' }}" required class="mt-1 block w-full border-gray-300 rounded" />
+        </div>
+        <!-- Rasm -->
+        <div class="col-span-2">
+            <label class="block text-sm font-medium text-gray-700">Rasm (ixtiyoriy)</label>
+            <input type="file" name="image" class="mt-1 block w-full" />
+            {% if product and product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="mt-2 w-32 h-32 object-cover" />
+            {% endif %}
+        </div>
+        <!-- Tavsif -->
+        <div class="col-span-2">
+            <label class="block text-sm font-medium text-gray-700">Tavsif</label>
+            <textarea name="description" rows="3" class="mt-1 block w-full border-gray-300 rounded">{{ product.description|default:'' }}</textarea>
+        </div>
+    </div>
+    <div class="mt-4">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+            {% if product %}Saqlash{% else %}Yaratish{% endif %}
+        </button>
+        <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+            hx-get="{% url 'frontend:product_list' %}"
+            hx-target="#product-list-container"
+            hx-swap="innerHTML">
+            Bekor
+        </button>
+    </div>
+</form>

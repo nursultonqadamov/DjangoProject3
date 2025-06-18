@@ -1,0 +1,20 @@
+{% extends 'frontend/base.html' %}
+{% block title %}Buyurtmalar{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Buyurtmalar</h1>
+
+<!-- Yangi buyurtma tugmasi -->
+<button 
+    class="bg-green-500 text-white px-4 py-2 rounded mb-4" 
+    hx-get="{% url 'frontend:order_form' %}" 
+    hx-target="#order-form-container" 
+    hx-swap="innerHTML">
+    + Yangi buyurtma
+</button>
+
+<div id="order-form-container"></div>
+
+<!-- Buyurtmalar ro‘yxati -->
+<div id="order-list-container" hx-get="{% url 'frontend:order_list' %}" hx-trigger="load" hx-swap="innerHTML"></div>
+{% endblock %}

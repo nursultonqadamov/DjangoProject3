@@ -1,0 +1,35 @@
+{% extends 'fronted/base.html' %}
+{% block title %}Inventory{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Inventory boshqaruvi</h1>
+
+<div class="grid grid-cols-2 gap-6">
+    <!-- Kirimlar bo‘limi -->
+    <div>
+        <h2 class="text-xl font-semibold mb-2">Kirimlar</h2>
+        <button 
+            class="bg-green-500 text-white px-4 py-2 rounded mb-2" 
+            hx-get="{% url 'frontend:stock_entry_form' %}" 
+            hx-target="#stock-entry-form-container" 
+            hx-swap="innerHTML">
+            + Kirim qo‘shish
+        </button>
+        <div id="stock-entry-form-container"></div>
+        <div id="stock-entry-list-container" hx-get="{% url 'frontend:stock_entry_list' %}" hx-trigger="load" hx-swap="innerHTML"></div>
+    </div>
+    <!-- Chiqimlar bo‘limi -->
+    <div>
+        <h2 class="text-xl font-semibold mb-2">Chiqimlar</h2>
+        <button 
+            class="bg-green-500 text-white px-4 py-2 rounded mb-2" 
+            hx-get="{% url 'frontend:stock_exit_form' %}" 
+            hx-target="#stock-exit-form-container" 
+            hx-swap="innerHTML">
+            + Chiqim qo‘shish
+        </button>
+        <div id="stock-exit-form-container"></div>
+        <div id="stock-exit-list-container" hx-get="{% url 'frontend:stock_exit_list' %}" hx-trigger="load" hx-swap="innerHTML"></div>
+    </div>
+</div>
+{% endblock %}

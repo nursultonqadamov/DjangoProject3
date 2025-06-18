@@ -1,0 +1,45 @@
+<div class="bg-white p-4 rounded shadow mb-4">
+    <h3 class="text-lg font-semibold mb-2">Yangi chiqim</h3>
+    <form 
+        hx-post="{% url 'frontend:stock_exit_create' %}"
+        hx-target="#stock-exit-list-container"
+        hx-swap="innerHTML"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        class="space-y-4">
+        {% csrf_token %}
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Mahsulot</label>
+            <select name="product_id" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <option value="">Mahsulotni tanlang</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}">{{ product.name }} (Zaxira: {{ product.stock }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Miqdor</label>
+            <input type="number" name="quantity" min="1" required 
+                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Izoh</label>
+            <textarea name="note" rows="2" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+        </div>
+        
+        <div class="flex space-x-2">
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">
+                Saqlash
+            </button>
+            <button type="button" 
+                    hx-get="{% url 'frontend:stock_exit_list' %}"
+                    hx-target="#stock-exit-list-container"
+                    hx-swap="innerHTML"
+                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                Bekor qilish
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,44 @@
+<form
+    hx-post="{% url 'frontend:order_create' %}"
+    hx-target="#order-list-container"
+    hx-swap="innerHTML"
+    class="bg-white p-4 rounded shadow mb-6"
+    method="post">
+    {% csrf_token %}
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Mahsulot</label>
+            <select name="product_id" required class="mt-1 block w-full border-gray-300 rounded">
+                <option value="">Mahsulotni tanlang</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}">{{ product.name }} ({{ product.stock }} dona)</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Miqdor</label>
+            <input type="number" name="quantity" min="1" required class="mt-1 block w-full border-gray-300 rounded" />
+        </div>
+        <div class="col-span-2">
+            <label class="block text-sm font-medium text-gray-700">Holat</label>
+            <select name="status" required class="mt-1 block w-full border-gray-300 rounded">
+                <option value="pending">Kutilmoqda</option>
+                <option value="processing">Jarayonda</option>
+                <option value="shipped">Yuborildi</option>
+                <option value="delivered">Yetkazildi</option>
+                <option value="cancelled">Bekor qilindi</option>
+            </select>
+        </div>
+    </div>
+    <div class="mt-4">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+            Yaratish
+        </button>
+        <button type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+            hx-get="{% url 'frontend:order_list' %}"
+            hx-target="#order-list-container"
+            hx-swap="innerHTML">
+            Bekor
+        </button>
+    </div>
+</form>

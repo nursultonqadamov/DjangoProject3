@@ -1,0 +1,54 @@
+<div class="grid grid-cols-2 gap-6">
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold">Foydalanuvchilar soni</h2>
+        <p class="text-3xl">{{ stats.total_users }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold">Buyurtmalar soni</h2>
+        <p class="text-3xl">{{ stats.total_orders }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold">Mahsulotlar soni</h2>
+        <p class="text-3xl">{{ stats.total_products }}</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold">Umumiy tushum (so‘m)</h2>
+        <p class="text-3xl">{{ stats.total_revenue }}</p>
+    </div>
+</div>
+
+<div class="mt-6 grid grid-cols-1 gap-6">
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-2">Eng koʻp sotilgan mahsulotlar</h2>
+        <ul class="list-disc ml-6">
+          {% for item in stats.top_products %}
+            <li>{{ item.product__name }} × {{ item.total_ordered }}</li>
+          {% empty %}
+            <li>Maʼlumot yoʻq</li>
+          {% endfor %}
+        </ul>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-2">Soʻnggi 6 oy boʻyicha sotuvlar</h2>
+        <table class="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border-b">Oy</th>
+              <th class="py-2 px-4 border-b">Summa</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for m in stats.monthly_sales %}
+              <tr class="hover:bg-gray-100">
+                <td class="py-2 px-4 border-b">{{ m.month|date:"Y-m" }}</td>
+                <td class="py-2 px-4 border-b">{{ m.total }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="2" class="py-4 text-center">Maʼlumot yoʻq</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+</div>

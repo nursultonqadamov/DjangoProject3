@@ -1,0 +1,20 @@
+{% extends 'frontend/base.html' %}
+{% block title %}Mahsulotlar{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Mahsulotlar</h1>
+
+<!-- Yangi mahsulot tugmasi -->
+<button 
+    class="bg-green-500 text-white px-4 py-2 rounded mb-4" 
+    hx-get="{% url 'frontend:product_form' %}" 
+    hx-target="#product-form-container" 
+    hx-swap="innerHTML">
+    + Mahsulot qo'shish
+</button>
+
+<div id="product-form-container"></div>
+
+<!-- Mahsulotlar ro'yxati -->
+<div id="product-list-container" hx-get="{% url 'frontend:product_list' %}" hx-trigger="load" hx-swap="innerHTML"></div>
+{% endblock %}

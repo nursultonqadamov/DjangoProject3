@@ -1,0 +1,113 @@
+<div class="bg-white p-6 rounded-lg shadow-md mb-6">
+    <h3 class="text-lg font-semibold mb-4">
+        {% if product %}Mahsulotni tahrirlash{% else %}Yangi mahsulot qo'shish{% endif %}
+    </h3>
+    
+    <form 
+        {% if product %}
+            hx-post="{% url 'frontend:product_edit' product.id %}"
+        {% else %}
+            hx-post="{% url 'frontend:product_create' %}"
+        {% endif %}
+        hx-target="#product-list-container"
+        hx-swap="innerHTML"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        enctype="multipart/form-data"
+        class="space-y-4">
+        
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Mahsulot nomi *</label>
+                <input 
+                    type="text" 
+                    name="name" 
+                    value="{% if product %}{{ product.name }}{% endif %}" 
+                    required 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Mahsulot nomini kiriting">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Narxi *</label>
+                <input 
+                    type="number" 
+                    step="0.01" 
+                    name="price" 
+                    value="{% if product %}{{ product.price }}{% endif %}" 
+                    required 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="0.00">
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Kategoriya *</label>
+                <select 
+                    name="category" 
+                    required 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Kategoriyani tanlang</option>
+                    <option value="tshirt" {% if product and product.category == 'tshirt' %}selected{% endif %}>T-Shirt</option>
+                    <option value="jeans" {% if product and product.category == 'jeans' %}selected{% endif %}>Jeans</option>
+                    <option value="shoes" {% if product and product.category == 'shoes' %}selected{% endif %}>Shoes</option>
+                    <option value="hat" {% if product and product.category == 'hat' %}selected{% endif %}>Hat</option>
+                    <option value="jacket" {% if product and product.category == 'jacket' %}selected{% endif %}>Jacket</option>
+                    <option value="dress" {% if product and product.category == 'dress' %}selected{% endif %}>Dress</option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Zaxira miqdori *</label>
+                <input 
+                    type="number" 
+                    name="stock" 
+                    value="{% if product %}{{ product.stock }}{% else %}0{% endif %}" 
+                    required 
+                    min="0"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="0">
+            </div>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Tavsif</label>
+            <textarea 
+                name="description" 
+                rows="3" 
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Mahsulot haqida qisqacha ma'lumot">{% if product %}{{ product.description }}{% endif %}</textarea>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Mahsulot rasmi</label>
+            <input 
+                type="file" 
+                name="image" 
+                accept="image/*" 
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            {% if product and product.image %}
+                <div class="mt-2">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-20 w-20 object-cover rounded">
+                    <p class="text-sm text-gray-500 mt-1">Joriy rasm</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="flex space-x-3 pt-4">
+            <button 
+                type="submit" 
+                class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                {% if product %}Yangilash{% else %}Saqlash{% endif %}
+            </button>
+            <button 
+                type="button" 
+                onclick="document.getElementById('product-form-container').innerHTML = ''" 
+                class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                Bekor qilish
+            </button>
+        </div>
+    </form>
+</div>

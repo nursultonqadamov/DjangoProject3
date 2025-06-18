@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Clothing CRM{% endblock %}</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.5"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-white shadow p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="{% url 'frontend:products' %}" class="text-blue-600 font-semibold">Mahsulotlar</a>
+            <a href="{% url 'frontend:orders' %}" class="text-blue-600 font-semibold">Buyurtmalar</a>
+            <a href="{% url 'frontend:inventory' %}" class="text-blue-600 font-semibold">Inventory</a>
+            <a href="{% url 'frontend:profile' %}" class="text-blue-600 font-semibold">Profil</a>
+            <a href="{% url 'frontend:dashboard' %}" class="text-blue-600 font-semibold">Dashboard</a>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="text-red-500 font-semibold">Chiqish</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container mx-auto py-6">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
