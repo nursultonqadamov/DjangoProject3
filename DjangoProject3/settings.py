@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-!*_#=^muoh4+&26-7ye$r_8)_dy1=-h0f-t7ipy@la7-ol&mkp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+# Replit uchun ALLOWED_HOSTS
+ALLOWED_HOSTS = ['*']  # Replit uchun barcha hostlarga ruxsat
 
 
 # Application definition
@@ -79,23 +80,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'DjangoProject3.wsgi.application'
 
 
-# Database
+# Database - SQLite (Django default)
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-
-
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT", 5432),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-
 
 
 # Password validation
@@ -133,6 +126,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Replit uchun
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -149,9 +144,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-
-
-
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'frontend:products'
+LOGIN_REDIRECT_URL = 'frontend:dashboard'
 LOGOUT_REDIRECT_URL = 'login'
